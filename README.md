@@ -253,15 +253,11 @@ class IEventBus : public utils::NonCopyable
 - `Publish` на остановленной шине — `std::runtime_error`.
 - `Publish` с пустым топиком — `std::runtime_error`.
 - `Subscribe` с пустым `handler` — `std::runtime_error`.
-- `Unsubscribe` с неизвестным `id` — no-op, пишет в `stderr`.
-- `Unsubscribe` повторный — no-op.
+- `Unsubscribe` с неизвестным `id` — пишет в `stderr`.
+- `Unsubscribe` повторный — пустая операция.
 - `Unsubscribe` на остановленной шине — `std::runtime_error`
-  (осознанно: отписываться нужно до `Shutdown`).
+  (отписываться нужно до `Shutdown`).
 - Исключение из `handler` перехватывается и логируется; рабочий поток
   продолжает работу.
-- **Backpressure не реализован:** при медленном обработчике и высоком
-  темпе публикации очередь подписчика растёт неограниченно. Осознанный
-  выбор; политика drop при необходимости добавляется без изменения
-  публичного API.
 
 ---
